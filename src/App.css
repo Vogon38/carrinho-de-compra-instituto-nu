@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: 'Barbarian';
+  src: url('../public/barbarian.ttf') format('truetype');
+}
+
+.store-name {
+  font-family: 'Barbarian', sans-serif;
+}
+
+h1 {
+  font-family: 'Barbarian', sans-serif;
+}
