@@ -15,6 +15,7 @@ const Cart = ({ cartItems, setCartItems }) => {
 
   const removeFromCart = (productId) => {
     const updatedCartItems = cartItems.filter((item) => item.id !== productId);
+    console.log('Removendo do Carrinho:', updatedCartItems); // Adicione este console.log
     setCartItems(updatedCartItems);
   };
 
@@ -22,6 +23,7 @@ const Cart = ({ cartItems, setCartItems }) => {
     const updatedCartItems = cartItems.map((item) =>
       item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
     );
+    console.log('Incrementando quantidade:', updatedCartItems); // Adicione este console.log
     setCartItems(updatedCartItems);
   };
 
@@ -32,6 +34,7 @@ const Cart = ({ cartItems, setCartItems }) => {
       }
       return item;
     });
+    console.log('Decrementando quantidade:', updatedCartItems); // Adicione este console.log
     setCartItems(updatedCartItems);
   };
 
