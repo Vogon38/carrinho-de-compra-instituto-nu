@@ -35,7 +35,10 @@ const ProductList = ({ addToCart }) => {
           <p>{product.description}</p>
           <p id={`price-${product.id}`} className="price">Preço: R${product.price}</p>
           <img src={product.image} alt={product.name} />
-          <button onClick={() => addToCart(product)}>Adicionar ao Carrinho</button>
+          <button onClick={() => {
+            console.log('Product:', product); // console.log
+            addToCart(product);
+          }}>Adicionar ao Carrinho</button>
         </div>
       ))}
     </div>
