@@ -1,46 +1,102 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import ProductList from './productList';
-import Cart from './Cart';
 import './App.css';
+import ProductList from './productList';
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
-  const addToCart = (product) => {
+  const addToCart = (product, quantity) => {
     const existingItem = cartItems.find((item) => item.id === product.id);
     if (existingItem) {
       const updatedCartItems = cartItems.map((item) =>
-        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
       );
       setCartItems(updatedCartItems);
     } else {
-      setCartItems([...cartItems, { ...product, quantity: 1 }]);
+      setCartItems([...cartItems, { ...product, quantity }]);
     }
   };
 
-  return (
-    <BrowserRouter>
-      <div>
-        <h1 className="store-name">Tabuleiro das Trevas</h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Produtos</Link>
-            </li>
-            <li>
-              <Link to="/carrinho">Carrinho</Link>
-            </li>
-          </ul>
-        </nav>
+  const removeFromCart = (productId) => {
+    const updatedCartItems = cartItems.filter((item) => item.id !== productId);
+    setCartItems(updatedCartItems);
+  };
 
-        <Routes>
-          <Route path="/" element={<ProductList addToCart={addToCart} />} />
-          <Route path="/carrinho" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
-        </Routes>
+  const incrementQuantity = (productId) => {
+    const updatedCartItems = cartItems.map((item) =>
+      item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+    );
+    setCartItems(updatedCartItems);
+  };
+
+  const decrementQuantity = (productId) => {
+    const updatedCartItems = cartItems.map((item) => {
+      if (item.id === productId && item.quantity > 0) {
+        return { ...item, quantity: item.quantity - 1 };
+      }
+      return item;
+    });
+    setCartItems(updatedCartItems);
+  };
+
+  const getTotalPrice = () => {
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
+  const handleCheckoutOpen = () => {
+    setCartItems([]); // Limpar os itens do carrinho
+    setIsCheckoutOpen(true);
+  };
+  
+
+  const handleCheckoutClose = () => {
+    setIsCheckoutOpen(false);
+  };
+
+  return (
+    <div className="app">
+      <header className="header">
+        <h1 className="store-name">Tabuleiro das Trevas</h1>
+      </header>
+      <div className="content">
+        <div className="product-list">
+          <ProductList addToCart={addToCart} cartItems={cartItems} />
+        </div>
+        <div className="cart">
+          <h2>Carrinho de Compras</h2>
+          {isCheckoutOpen ? (
+            <div className="checkout">
+              <p>Seu pedido foi finalizado. Obrigado pela compra!</p>
+              <button className="checkout-button" onClick={handleCheckoutClose}>Fechar</button>
+            </div>
+          ) : (
+            <>
+              {cartItems.length === 0 ? (
+                <p>O carrinho está vazio.</p>
+              ) : (
+                <div>
+                  {cartItems.map((item) => (
+                    <div key={item.id}>
+                      <h3>{item.name}</h3>
+                      <p>Preço: R${item.price}</p>
+                      <p>Quantidade: {item.quantity}</p>
+                      <button onClick={() => decrementQuantity(item.id)}>-</button>
+                      <button onClick={() => incrementQuantity(item.id)}>+</button>
+                      <button onClick={() => removeFromCart(item.id)}>Remover do Carrinho</button>
+                    </div>
+                  ))}
+                  <p className="total-price">Total: R${getTotalPrice()}</p>
+                  <button className="checkout-button" onClick={handleCheckoutOpen}>Finalizar Compra</button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
-    </BrowserRouter>
+    </div>
   );
+  
 };
 
 export default App;

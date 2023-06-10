@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Barbarian';
+  src: url('../public/barbarian.ttf') format('truetype');
+}
+
+/* Estilos globais */
+
 .App {
   text-align: center;
 }
@@ -12,6 +19,8 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+
+/* Estilos do cabeçalho */
 
 .App-header {
   background-color: #282c34;
@@ -28,24 +37,56 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* Estilos do cabeçalho da aplicação */
 
-@font-face {
-  font-family: 'Barbarian';
-  src: url('../public/barbarian.ttf') format('truetype');
+.header {
+  padding: 20px;
+  background-color: #000000;
 }
 
 .store-name {
+  margin: 0;
+  color: #ffffff;
   font-family: 'Barbarian', sans-serif;
 }
 
-h1 {
-  font-family: 'Barbarian', sans-serif;
+/* Estilos do layout principal */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+}
+
+.product-list {
+  flex-basis: 70%;
+  padding: 20px;
+}
+
+.cart {
+  flex-basis: 30%;
+  padding: 20px;
+  background-color: #f1f1f1;
+}
+
+.total-price {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.checkout-button {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.checkout-button:hover {
+  background-color: #504d4d;
 }
